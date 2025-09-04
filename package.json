@@ -49,6 +49,7 @@
     "clsx": "^2.1.1",
     "concurrently": "^9.0.1",
     "globals": "^15.14.0",
+    "jwt-decode": "^4.0.0",
     "laravel-vite-plugin": "^2.0",
     "lucide-react": "^0.475.0",
     "react": "^19.0.0",
