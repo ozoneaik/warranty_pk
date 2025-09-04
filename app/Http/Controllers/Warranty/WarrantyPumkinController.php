@@ -9,6 +9,6 @@ use Inertia\Inertia;
 class WarrantyPumkinController extends Controller
 {
     public function index(){
-        return Inertia::render('warranty/WPK');
+        return Inertia::render('warranty/WpkNew');
     }
 }

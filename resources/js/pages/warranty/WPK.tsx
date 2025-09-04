@@ -1,26 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Head, router } from '@inertiajs/react';
-import { 
-    Form, 
-    Input, 
-    DatePicker, 
-    Select, 
-    Button, 
-    Upload, 
-    Card, 
-    Typography, 
-    Space,
-    Row,
-    Col,
-    message,
-    Image,
-    Modal
+import { Head } from '@inertiajs/react';
+import {
+    Form, Input, DatePicker, Select, Button, Upload, Card, Typography,
+    Space, Row, Col, message, Image, Modal
 } from 'antd';
-import { 
-    UploadOutlined, 
-    GoogleOutlined, 
+import {
+    UploadOutlined,
+    GoogleOutlined,
     FacebookOutlined,
-    EyeOutlined 
+    EyeOutlined
 } from '@ant-design/icons';
 import axios from 'axios';
 import dayjs from 'dayjs';
@@ -28,7 +16,7 @@ import dayjs from 'dayjs';
 const { Title, Text } = Typography;
 const { Option } = Select;
 
-const WarrantyRegistration = ({ auth , csrf_token } : {auth : any, csrf_token : any}) => {
+const WarrantyRegistration = ({ auth, csrf_token }: { auth: any, csrf_token: any }) => {
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
     const [uploadedFile, setUploadedFile] = useState(null);
@@ -118,7 +106,7 @@ const WarrantyRegistration = ({ auth , csrf_token } : {auth : any, csrf_token : 
     ];
 
     // จัดการการอัปโหลดไฟล์
-    const handleUpload = async (file : any) => {
+    const handleUpload = async (file: any) => {
         // ตรวจสอบประเภทไฟล์
         const isImage = file.type.startsWith('image/');
         if (!isImage) {
@@ -134,7 +122,7 @@ const WarrantyRegistration = ({ auth , csrf_token } : {auth : any, csrf_token : 
         }
 
         setLoading(true);
-        
+
         try {
             // สร้าง FormData สำหรับอัปโหลดไปยัง S3
             const formData = new FormData();
@@ -153,14 +141,14 @@ const WarrantyRegistration = ({ auth , csrf_token } : {auth : any, csrf_token : 
                     url: response.data.url,
                     name: file.name
                 });
-                
+
                 // เซ็ต preview image
                 const reader = new FileReader();
                 reader.onload = (e) => {
                     setPreviewImage(e.target.result);
                 };
                 reader.readAsDataURL(file);
-                
+
                 message.success('อัปโหลดไฟล์สำเร็จ!');
             } else {
                 message.error('เกิดข้อผิดพลาดในการอัปโหลดไฟล์');
@@ -176,14 +164,14 @@ const WarrantyRegistration = ({ auth , csrf_token } : {auth : any, csrf_token : 
     };
 
     // จัดการการส่งฟอร์ม
-    const handleSubmit = async (values : any) => {
+    const handleSubmit = async (values: any) => {
         if (!uploadedFile) {
             message.error('กรุณาอัปโหลดใบประกันก่อน!');
             return;
         }
 
         setLoading(true);
-        
+
         try {
             // เตรียมข้อมูลสำหรับส่งไปยัง API
             const warrantyData = {
@@ -218,7 +206,7 @@ const WarrantyRegistration = ({ auth , csrf_token } : {auth : any, csrf_token : 
             } else {
                 message.error('เกิดข้อผิดพลาดในการลงทะเบียน กรุณาลองใหม่อีกครั้ง');
             }
-        } catch (error : any) {
+        } catch (error: any) {
             console.error('Submit error:', error);
             if (error.response) {
                 // Server responded with error
@@ -246,7 +234,7 @@ const WarrantyRegistration = ({ auth , csrf_token } : {auth : any, csrf_token : 
     };
 
     // แสดงหน้า Login ถ้ายังไม่ได้ล็อกอิน
-    if (auth.user) {
+    if (!auth.user) {
         return (
             <>
                 <Head title="ลงทะเบียนรับประกันสินค้า Pumpkin" />
@@ -265,7 +253,7 @@ const WarrantyRegistration = ({ auth , csrf_token } : {auth : any, csrf_token : 
                                     <Text type="secondary">
                                         กรุณาเข้าสู่ระบบเพื่อทำการลงทะเบียนรับประกันสินค้า
                                     </Text>
-                                    
+
                                     <Space direction="vertical" size="middle" style={{ width: '100%' }} className="social-buttons">
                                         <Button
                                             className="social-button google-button"
@@ -276,7 +264,7 @@ const WarrantyRegistration = ({ auth , csrf_token } : {auth : any, csrf_token : 
                                             <GoogleOutlined />
                                             เข้าสู่ระบบด้วย Google
                                         </Button>
-                                        
+
                                         <Button
                                             className="social-button facebook-button"
                                             size="large"
@@ -285,6 +273,16 @@ const WarrantyRegistration = ({ auth , csrf_token } : {auth : any, csrf_token : 
                                         >
                                             <FacebookOutlined />
                                             เข้าสู่ระบบด้วย Facebook
+                                        </Button>
+
+                                        <Button
+                                            className="social-button facebook-button"
+                                            size="large"
+                                            onClick={handleFacebookLogin}
+                                            block
+                                        >
+                                            <FacebookOutlined />
+                                            เข้าสู่ระบบด้วย Line
                                         </Button>
                                     </Space>
                                 </Space>
@@ -348,7 +346,7 @@ const WarrantyRegistration = ({ auth , csrf_token } : {auth : any, csrf_token : 
                                                 รองรับไฟล์ JPG, PNG, GIF (ขนาดไม่เกิน 5MB)
                                             </p>
                                         </Upload.Dragger>
-                                        
+
                                         {/* แสดงรูปภาพที่อัปโหลด */}
                                         {uploadedFile && previewImage && (
                                             <div style={{ marginTop: '16px', textAlign: 'center' }}>
