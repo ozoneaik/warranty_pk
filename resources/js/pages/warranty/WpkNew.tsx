@@ -25,13 +25,13 @@ const WpkNew = () => {
     // กำหนดค่า config (ใส่ข้อมูลจริงของคุณ)
     const socialConfig = {
         google: {
-            clientId: "YOUR_GOOGLE_CLIENT_ID.googleusercontent.com"
+            clientId: import.meta.env.VITE_GOOGLE_CLIENT_ID
         },
         facebook: {
-            appId: "YOUR_FACEBOOK_APP_ID"
+            appId: import.meta.env.VITE_FACEBOOK_APP_ID
         },
         line: {
-            channelId: "YOUR_LINE_CHANNEL_ID"
+            channelId: import.meta.env.VITE_LINE_CHANNEL_ID
         }
     };
 
